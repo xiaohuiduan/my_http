@@ -59,6 +59,7 @@ void parse_request(struct http_request *req, char *http_data) {
                 index = index + 2;
                 *(index + len) = '\0';
                 req->body = index;
+                index = index + len;
             }
         }
     }
