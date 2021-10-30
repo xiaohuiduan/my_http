@@ -1,7 +1,30 @@
 cmake_minimum_required(VERSION 3.10)
 project(my_http C)
 
-set(CMAKE_C_STANDARD 99)
 
-add_executable(server server.c)
-add_executable(clinet clinet.c)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CMAKE_C_FLAGS "-std=c99 -g -pthread")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_C_FLAGS "-std=c99 -O2 -pthread")
+endif ()
+
+set(src
+        ${CMAKE_CURRENT_SOURCE_DIR}/test.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/request.c
+        response.h response.c)
+
+#include_directories(${CMAKE})
+#add_executable(server server.c)
+#add_executable(clinet clinet.c )
+add_executable(my_http  ${src})
+
+### dependencies
+#INCLUDE(FindPkgConfig)
+### 使用pkg-config寻找glib-2.0和gobject-2.0库的include目录以及库
+
+find_package(PkgConfig REQUIRED)
+pkg_search_module(GLIB REQUIRED glib-2.0)
+include_directories(${GLIB_INCLUDE_DIRS})
+link_directories(${GLIB_LIBRARY_DIRS})
+add_definitions(${GLIB_CFLAGS_OTHER})
+target_link_libraries(my_http ${GLIB_LIBRARIES})
