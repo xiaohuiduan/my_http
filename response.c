@@ -21,7 +21,6 @@ void send_response(struct http_response *response, int client_fd) {
     fprintf(stream, "\r\n");
 
     if (response->body != NULL) {
-        printf("body大小%lu\n",sizeof(response->body));
         fwrite(response->body, 1, response->content_length, stream);
     }
     fflush(stream);

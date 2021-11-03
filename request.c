@@ -3,6 +3,7 @@
 //
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "request.h"
 #include "glib.h"
 
@@ -32,7 +33,7 @@ void parse_request(struct http_request *req, char *http_data) {
     req->url = url;
     req->version = version;
 
-    GHashTable *headers = g_hash_table_new(g_str_hash,g_str_equal);
+    GHashTable *headers = g_hash_table_new(g_str_hash, g_str_equal);
     req->headers = headers;
 
     while (*index != '\0') {
@@ -45,16 +46,16 @@ void parse_request(struct http_request *req, char *http_data) {
             }
         }
         *index = '\0';
-        g_hash_table_insert(headers,key,value);
+        g_hash_table_insert(headers, key, value);
         index = index + 2;
 
-        if (*index == '\r'){
-            char* result = 0;
+        if (*index == '\r') {
+            char *result = 0;
 
             char *content_len_key = "Content-Length";
-            result = g_hash_table_lookup(headers,content_len_key);
+            result = g_hash_table_lookup(headers, content_len_key);
 
-            if (result != 0){
+            if (result != 0) {
                 int len = atoi(result);
                 index = index + 2;
                 *(index + len) = '\0';
@@ -64,5 +65,44 @@ void parse_request(struct http_request *req, char *http_data) {
         }
     }
 
+}
+
+/// 解析get请求
+/// \param request_data /get?id=1&name=2
+/// \param url
+void parse_get_data(struct request_data *request_data, char *url) {
+    char *real_url = url + 1;
+    while (*url != '?' && *url != '\0') {
+        url = url + 1;
+    }
+
+    request_data->real_url = real_url;
+
+    // 没有get参数
+    if (*url == '\0') {
+        return;
+    }
+
+    *url = '\0';
+
+    char *index = url + 1;
+
+    GHashTable *data = g_hash_table_new(g_str_hash, g_str_equal);
+    request_data->data = data;
+
+    while (*index != '\0') {
+        char *key = index;
+        while (*index != '=')index++;
+        *index = '\0';
+        char *value = index + 1;
+        while (*index != '&' && *index != '\0')index++;
+        if (*index == '&') {
+            *index = '\0';
+            index = index + 1;
+        } else {
+            *index = '\0';
+        }
+        g_hash_table_insert(data, key, value);
+    }
 }
 

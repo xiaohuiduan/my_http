@@ -26,14 +26,23 @@ void *process_http(void *client) {
     if (g_ascii_strncasecmp(req.method, "GET", sizeof(*req.method)) == 0) {
         struct http_response *p = &response;
 
-        char *filename = 0;
-        int type = parse_request_type(req.url, &filename);
-
-        build_response_headers(type, &p);
-        build_response_body(type, filename, &p);
-
-        send_response(p, client_socket);
+        char *url = 0;
+        int type = parse_request_type(req.url, &url);
+        // 如果是请求html文本或者是请求图片，则直接返回信息
+        if (type == HTTP_IMAGE || type == HTTP_TEXT) {
+            build_response_headers(type, &p);
+            build_response_body(type, url, &p);
+            send_response(p, client_socket);
+        }
+        // 如果发送的是get请求1?id=1&get=2
+        if (type == GET_PARAMS_DATA) {
+            struct request_data request_data;
+            memset(&request_data, 0,sizeof(request_data));
+            parse_get_data(&request_data,req.url);
+        }
 
     } else if (g_ascii_strncasecmp(req.method, "POST", sizeof(*req.method)) == 0) {
+        printf("%s\n",req.body);
+
     }
 }

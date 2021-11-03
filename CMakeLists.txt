@@ -16,8 +16,7 @@ set(src
         ${CMAKE_CURRENT_SOURCE_DIR}/response_util.c)
 
 #include_directories(${CMAKE})
-#add_executable(server server.c)
-#add_executable(clinet clinet.c )
+#add_executable(test test.c)
 add_executable(my_http  ${src} response_util.c response_util.h)
 
 ### dependencies

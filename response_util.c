@@ -54,7 +54,7 @@ int parse_request_type(char *url, char **filename) {
     } else if (strstr(url, ".html")) {
         type = HTTP_TEXT;
     } else {
-        type = HTTP_TEXT;
+        type = GET_PARAMS_DATA;
     }
     *filename = url + 1;
 
