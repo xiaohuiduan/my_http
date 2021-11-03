@@ -9,14 +9,16 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif ()
 
 set(src
-        ${CMAKE_CURRENT_SOURCE_DIR}/test.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/server.c
         ${CMAKE_CURRENT_SOURCE_DIR}/request.c
-        response.h response.c)
+        ${CMAKE_CURRENT_SOURCE_DIR}/response.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/thread_process_http.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/response_util.c)
 
 #include_directories(${CMAKE})
 #add_executable(server server.c)
 #add_executable(clinet clinet.c )
-add_executable(my_http  ${src})
+add_executable(my_http  ${src} response_util.c response_util.h)
 
 ### dependencies
 #INCLUDE(FindPkgConfig)

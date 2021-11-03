@@ -3,7 +3,6 @@
 //
 
 #include <unistd.h>
-#include <bits/types/FILE.h>
 #include <stdio.h>
 #include "response.h"
 
@@ -11,18 +10,20 @@ void send_headers(gpointer key, gpointer value, gpointer stream) {
     fprintf((FILE *) stream, "%s: %s\r\n", (char *) key, (char *) value);
 }
 
-void send_body(char *body, FILE *stream) {
-    fprintf(stream, "\r\n%s\r\n", body);
-}
-
-
+/// send response to the browser (response contain headers and body)
+/// \param response
+/// \param client_fd
 void send_response(struct http_response *response, int client_fd) {
     GHashTable *headers = response->headers;
     FILE *stream = fdopen(client_fd, "w+");
     fprintf(stream, "%s %s %s\r\n", response->version, response->status_code, response->reason_phrase);
     g_hash_table_foreach(headers, send_headers, stream);
-    send_body(response->body, stream);
+    fprintf(stream, "\r\n");
 
+    if (response->body != NULL) {
+        printf("body大小%lu\n",sizeof(response->body));
+        fwrite(response->body, 1, response->content_length, stream);
+    }
     fflush(stream);
     fclose(stream);
 
