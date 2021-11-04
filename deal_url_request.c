@@ -9,7 +9,6 @@ void res_url_deal(char *url, int type, struct http_response *p_response, int cli
     // 发送请求
     send_response(p_response, client_socket);
 }
-
 void url_test1_deal(int type, struct request_data *request_data, struct http_response *response, int client_socket)
 {
     char *name, *pwd;
