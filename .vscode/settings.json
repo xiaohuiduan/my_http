@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "response_util.h": "c",
+        "response.h": "c",
+        "stdio.h": "c",
+        "glib.h": "c",
+        "deal_url_request.h": "c",
+        "request.h": "c",
+        "typeinfo": "c"
+    }
+}

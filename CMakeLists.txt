@@ -13,11 +13,17 @@ set(src
         ${CMAKE_CURRENT_SOURCE_DIR}/request.c
         ${CMAKE_CURRENT_SOURCE_DIR}/response.c
         ${CMAKE_CURRENT_SOURCE_DIR}/thread_process_http.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/response_util.c)
+        ${CMAKE_CURRENT_SOURCE_DIR}/response_util.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/deal_url_request.c
+        )
 
 #include_directories(${CMAKE})
 #add_executable(test test.c)
-add_executable(my_http  ${src} response_util.c response_util.h)
+add_executable(my_http  ${src})
+
+
+FILE(COPY res DESTINATION "${CMAKE_BINARY_DIR}")
+
 
 ### dependencies
 #INCLUDE(FindPkgConfig)

@@ -1,5 +1,7 @@
-#include "glib.h"
+#ifndef MY_HTTP_REQUEST_H
+#define MY_HTTP_REQUEST_H
 
+#include "glib.h"
 struct http_request
 {
     char *method;
@@ -26,3 +28,5 @@ void parse_get_data(struct http_request *http_request, struct request_data *requ
 /// \param http_request http请求的参数
 /// \param http_data 解析请求的参数
 void parse_post_data(struct http_request *http_request, struct request_data *request_data);
+
+#endif //MY_HTTP_DEAL_URL_REQUEST_H
