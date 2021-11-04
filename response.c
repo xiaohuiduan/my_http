@@ -25,5 +25,6 @@ void send_response(struct http_response *response, int client_fd) {
     }
     fflush(stream);
     fclose(stream);
+    close(client_fd);
 
 }

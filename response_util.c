@@ -5,10 +5,10 @@
 #include "response_util.h"
 
 
-void build_response_headers(int type, struct http_response **response) {
-    (*response)->version = "HTTP/1.0";
-    (*response)->status_code = "200";
-    (*response)->reason_phrase = "OK";
+void build_response_headers(int type, struct http_response *response) {
+    (response)->version = "HTTP/1.0";
+    (response)->status_code = "200";
+    (response)->reason_phrase = "OK";
     GHashTable *headers = g_hash_table_new(g_str_hash, g_str_equal);
     g_hash_table_insert(headers, "Server", "C-- Server");
 
@@ -16,16 +16,19 @@ void build_response_headers(int type, struct http_response **response) {
         g_hash_table_insert(headers, "Content-Type", " text/html;charset=utf-8");
     } else if (type == HTTP_IMAGE) {
         g_hash_table_insert(headers, "Content-Type", " image/jpeg");
+    } else if (type == GET_PARAMS_DATA) {
+
+        g_hash_table_insert(headers, "Content-Type", " text/html;charset=utf-8");
     }
-    (*response)->headers = headers;
+    (response)->headers = headers;
 }
 
-void build_response_body(int type, char *filename, struct http_response **response) {
+void build_response_body(int type, char *filename, struct http_response *response) {
     FILE *f = fopen(filename, "rb");
     if (f == NULL) {
         printf("文件%s打开失败", filename);
 //        exit(0);
-        (*response)->body = NULL;
+        (response)->body = NULL;
         return;
     }
     size_t size = 0;
@@ -35,13 +38,13 @@ void build_response_body(int type, char *filename, struct http_response **respon
     void *buf = malloc(size);
     fread(buf, 1, size, f);
 
-    (*response)->body = buf;
-    (*response)->content_length = size;
+    (response)->body = buf;
+    (response)->content_length = size;
 }
 
 /// 解析请求url的类型html or 图片
 /// \param url /1.jpg  /1
-/// \param filename
+/// \param filename /1.jpg or /1.html -> 1.jpg or 1.html
 /// \return
 int parse_request_type(char *url, char **filename) {
     int type;

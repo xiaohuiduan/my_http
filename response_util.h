@@ -13,9 +13,9 @@
 
 int parse_request_type(char *url,char ** filename);
 
-void build_response_headers(int type, struct http_response **response);
+void build_response_headers(int type, struct http_response *response);
 
-void build_response_body(int type,char *filename, struct http_response **response);
+void build_response_body(int type,char *filename, struct http_response *response);
 
 
 
