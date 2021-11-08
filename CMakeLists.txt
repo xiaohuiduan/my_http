@@ -4,34 +4,27 @@ project(my_http C)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_C_FLAGS "-std=c99 -g -pthread")
-elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_C_FLAGS "-std=c99 -O2 -pthread")
 endif ()
 
-set(src
-        ${CMAKE_CURRENT_SOURCE_DIR}/server.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/request.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/response.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/thread_process_http.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/response_util.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/deal_url_request.c
-        )
+set(PROJECT_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
+include_directories(include)
+aux_source_directory(${CMAKE_SOURCE_DIR}/src proj_src)
+add_executable(${PROJECT_NAME} ${proj_src})
 
-#include_directories(${CMAKE})
-#add_executable(test test.c)
-add_executable(my_http  ${src})
-
+#  add_subdirectory(test)
 
 FILE(COPY res DESTINATION "${CMAKE_BINARY_DIR}")
 
+find_package(OpenSSL REQUIRED)
+target_link_libraries(my_http OpenSSL::SSL)
 
-### dependencies
-#INCLUDE(FindPkgConfig)
-### 使用pkg-config寻找glib-2.0和gobject-2.0库的include目录以及库
 
-find_package(PkgConfig REQUIRED)
-pkg_search_module(GLIB REQUIRED glib-2.0)
-include_directories(${GLIB_INCLUDE_DIRS})
-link_directories(${GLIB_LIBRARY_DIRS})
-add_definitions(${GLIB_CFLAGS_OTHER})
-target_link_libraries(my_http ${GLIB_LIBRARIES})
+find_package (PkgConfig REQUIRED)
+pkg_check_modules (GLIB REQUIRED glib-2.0)
+include_directories (${GLIB_INCLUDE_DIRS})
+link_directories (${GLIB_INCLUDE_DIRS})
+add_definitions (${GLIB_CFLAGS_OTHER})
+target_link_libraries (my_http ${GLIB_LIBRARIES})
+

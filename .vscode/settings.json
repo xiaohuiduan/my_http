@@ -1,11 +1,16 @@
 {
     "files.associations": {
-        "response_util.h": "c",
-        "response.h": "c",
-        "stdio.h": "c",
-        "glib.h": "c",
+        "thread_process_http.h": "c",
+        "ssl_socket.h": "c",
         "deal_url_request.h": "c",
+        "string.h": "c",
+        "memory.h": "c",
+        "inet.h": "c",
+        "unistd.h": "c",
+        "err.h": "c",
+        "stdio.h": "c",
+        "response.h": "c",
         "request.h": "c",
-        "typeinfo": "c"
+        "response_util.h": "c"
     }
 }

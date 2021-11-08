@@ -28,10 +28,10 @@ void build_response_headers(int type, struct http_response *response)
     (response)->headers = headers;
 }
 
-void build_response_body(int type, char *filename, struct http_response *response)
+void build_response_file_body(int type, char *filename, struct http_response *response)
 {
     char file_path[1024] = {0};
-    strcat(file_path, "/home/xiaohui/homework/network/my_http/build/res/");
+    strcat(file_path, "/home/xiaohui/homework/network/my_http/res/");
     strcat(file_path, filename);
 
     FILE *f = fopen(file_path, "rb");
@@ -68,10 +68,16 @@ int parse_request_type(char *url, char **filename)
     {
         type = HTTP_IMAGE;
     }
+    else if (strstr(url, ".gif"))
+    {
+        type = HTTP_IMAGE;
+    }
     else if (strstr(url, ".jpeg"))
     {
         type = HTTP_IMAGE;
-    }else if(strstr(url,"favicon.ico")){
+    }
+    else if (strstr(url, "favicon.ico"))
+    {
         type = HTTP_IMAGE;
     }
     else if (strstr(url, ".html"))
