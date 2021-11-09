@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <memory.h>
 #include <sys/socket.h>
+#include "config.h"
 
 void ssl_socket_init(SSL_CTX **ctx)
 {
@@ -17,9 +18,9 @@ void ssl_socket_init(SSL_CTX **ctx)
     *ctx = SSL_CTX_new(SSLv23_server_method());
 
     // 在OpenSSL中创建的SSL会话环境称为CTX，使用不同的协议会话，其环境也不一样的
-    int suc_load_ca = SSL_CTX_use_certificate_file(*ctx, "/home/xiaohui/homework/network/my_http/test/cacert.pem",
+    int suc_load_ca = SSL_CTX_use_certificate_file(*ctx, CA_PATH,
                                                    SSL_FILETYPE_PEM);
-    int suc_load_pv = SSL_CTX_use_PrivateKey_file(*ctx, "/home/xiaohui/homework/network/my_http/test/privkey.pem",
+    int suc_load_pv = SSL_CTX_use_PrivateKey_file(*ctx, PK_PATH,
                                                   SSL_FILETYPE_PEM);
     if (suc_load_ca <= 0 || suc_load_pv <= 0)
     {

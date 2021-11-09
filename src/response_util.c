@@ -3,6 +3,7 @@
 //
 
 #include "response_util.h"
+#include "config.h"
 
 void build_response_headers(int type, struct http_response *response)
 {
@@ -31,7 +32,7 @@ void build_response_headers(int type, struct http_response *response)
 void build_response_file_body(int type, char *filename, struct http_response *response)
 {
     char file_path[1024] = {0};
-    strcat(file_path, "/home/xiaohui/homework/network/my_http/res/");
+    strcat(file_path, RES_DIR);
     strcat(file_path, filename);
 
     FILE *f = fopen(file_path, "rb");
