@@ -9,8 +9,6 @@ int res_url_deal(char *url_filename, int type, struct http_response *p_response,
     return send_response(p_response, my_socket);
 }
 
-#include "response_util.h"
-
 int url_test1_deal(int type, struct request_data *request_data, struct http_response *response, struct my_socket *my_socket)
 {
     char *name, *pwd;

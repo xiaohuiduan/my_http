@@ -13,7 +13,7 @@ include_directories(include)
 aux_source_directory(${CMAKE_SOURCE_DIR}/src proj_src)
 add_executable(${PROJECT_NAME} ${proj_src})
 
-#  add_subdirectory(test)
+ add_subdirectory(test)
 
 FILE(COPY res DESTINATION "${CMAKE_BINARY_DIR}")
 
@@ -28,3 +28,9 @@ link_directories (${GLIB_INCLUDE_DIRS})
 add_definitions (${GLIB_CFLAGS_OTHER})
 target_link_libraries (my_http ${GLIB_LIBRARIES})
 
+set(INC_DIR /usr/include)
+set(LINK_DIR /usr/lib)
+include_directories(${INC_DIR})
+link_directories(${LINK_DIR})
+link_libraries(event)
+target_link_libraries(my_http event)

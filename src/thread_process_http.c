@@ -8,14 +8,11 @@
 #include "config.h"
 #include "my_socket.h"
 #include "thread_process_http.h"
+#include "libevent_deal.h"
 
 int process_http(struct my_socket *my_socket)
 {
     char buf[2048] = {0};
-
-    // char* buf;
-    // buf = (char*)malloc(sizeof(char) * 2048);
-    // memset(buf, 0, 2048);
 
     if (DO_SSL)
     {
@@ -23,7 +20,6 @@ int process_http(struct my_socket *my_socket)
         if (my_socket->ssl == NULL)
         {
             close(my_socket->client_socket);
-            printf("SSL_new error\n");
             fprintf(stderr, "read from SSL failed.\n");
             return -1;
         }

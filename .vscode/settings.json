@@ -11,6 +11,18 @@
         "stdio.h": "c",
         "response.h": "c",
         "request.h": "c",
-        "response_util.h": "c"
+        "response_util.h": "c",
+        "config.h": "c",
+        "my_socket.h": "c",
+        "socket.h": "c",
+        "event.h": "c",
+        "bufferevent.h": "c",
+        "bufferevent_ssl.h": "c",
+        "buffer.h": "c",
+        "limits": "c",
+        "select.h": "c",
+        "libevent_deal.h": "c",
+        "stdlib.h": "c",
+        "ssl.h": "c"
     }
 }

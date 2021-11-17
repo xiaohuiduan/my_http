@@ -7,7 +7,7 @@
 
 void build_response_headers(int type, struct http_response *response)
 {
-    (response)->version = "HTTP/1.0";
+    (response)->version = "HTTP/1.1";
     (response)->status_code = "200";
     (response)->reason_phrase = "OK";
     GHashTable *headers = g_hash_table_new(g_str_hash, g_str_equal);
@@ -31,8 +31,7 @@ void build_response_headers(int type, struct http_response *response)
 
 void build_response_file_body(int type, char *filename, struct http_response *response)
 {
-    char file_path[1024] = {0};
-    strcat(file_path, RES_DIR);
+    char file_path[512] = RES_DIR;
     strcat(file_path, filename);
 
     FILE *f = fopen(file_path, "rb");

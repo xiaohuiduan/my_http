@@ -3,3 +3,9 @@
 /CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
+my_http
+.vscode/
+.idea/
+.git/
+.gitignore
+

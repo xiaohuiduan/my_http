@@ -16,4 +16,6 @@ struct my_socket
 void ssl_socket_init(SSL_CTX **ctx);
 void create_ssl(SSL **ssl, SSL_CTX *ctx, int client_socket);
 
+int init_socket(int port);
+
 #endif //MY_HTTP_SSL_SOCKET_H

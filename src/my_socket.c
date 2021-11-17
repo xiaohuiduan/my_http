@@ -58,3 +58,23 @@ void create_ssl(SSL **ssl, SSL_CTX *ctx, int client_socket)
         exit(1);
     }
 }
+
+int init_socket(int port){
+    // 配置server_socket
+    int server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    struct sockaddr_in server_addr;
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = inet_addr("0.0.0.0");
+    server_addr.sin_port = htons(PORT);
+    int opt = 1;
+    setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    int suc = bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
+    if (suc == -1)
+    {
+        printf("绑定失败");
+        exit(1);
+    }
+    listen(server_socket, 500000);
+    return server_socket;
+}
