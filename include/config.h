@@ -11,7 +11,7 @@
 #define PK_PATH "/home/xiaohui/homework/network/my_http/res/privkey.pem"
 #define MAX_BUF_SIZE 1024
 #define CHUNK 1 //1代表开启分块传输 0代表不开启
-#define CHUNK_SIZE 200 // 分块传输大小
+#define CHUNK_SIZE 1024 // 分块传输大小
 
 #define PORT 8899 // 服务器监听端口
 
