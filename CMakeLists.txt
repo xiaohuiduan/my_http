@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(my_http C)
 
-
+# glic libevent openssl 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_C_FLAGS "-std=c99 -g -pthread")
 elseif (CMAKE_BUILD_TYPE STREQUAL "Release")

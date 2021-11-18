@@ -15,8 +15,7 @@ void ssl_socket_init(SSL_CTX **ctx)
 {
     SSL_library_init();
     SSL_load_error_strings();
-    *ctx = SSL_CTX_new(SSLv23_server_method());
-
+    *ctx = SSL_CTX_new(TLS_server_method());
     // 在OpenSSL中创建的SSL会话环境称为CTX，使用不同的协议会话，其环境也不一样的
     int suc_load_ca = SSL_CTX_use_certificate_file(*ctx, CA_PATH,
                                                    SSL_FILETYPE_PEM);

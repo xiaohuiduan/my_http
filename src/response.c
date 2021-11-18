@@ -161,7 +161,7 @@ int send_ssl_response(struct http_response *response, struct my_socket *my_socke
             int i = 0;
             while (i < epoch)
             {
-                my_ssl_write(ssl, "800\r\n", 5);
+                my_ssl_write(ssl, "15\r\n", 4);
                 my_ssl_write(ssl, response->body + i * CHUNK_SIZE, CHUNK_SIZE);
                 my_ssl_write(ssl, "\r\n", 2);
                 i++;
@@ -171,8 +171,9 @@ int send_ssl_response(struct http_response *response, struct my_socket *my_socke
             sprintf(content_len, "%x\r\n", last);
             my_ssl_write(ssl, content_len, strlen(content_len));
             my_ssl_write(ssl, response->body + epoch * CHUNK_SIZE, last);
-            my_ssl_write(ssl, "\r\n0\r\n\r\n", 2+5);
-            // my_ssl_write(ssl, "0\r\n\r\n", 5);
+            my_ssl_write(ssl, "\r\n", 2);
+            my_ssl_write(ssl, "0\r\n", 3);
+            my_ssl_write(ssl, "\r\n", 2);
         }
         else
         {
