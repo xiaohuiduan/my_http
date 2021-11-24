@@ -31,4 +31,5 @@ void on_read(int client_fd, short event, void *arg);
 // 写数据
 void on_write(int client_fd, short event, void *arg);
 
+// 处理数据
 int deal_data_and_response(struct socket_event *socket_event);

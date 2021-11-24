@@ -131,31 +131,81 @@ void parse_get_data(struct http_request *http_request, struct request_data *requ
 /// @param request_data 解析后的数据结构 key:value
 void parse_post_data(struct http_request *http_request, struct request_data *request_data)
 {
+
+    GHashTable *headers = http_request->headers;
+
     request_data->real_url = http_request->url + 1;
+    char *content_type = g_hash_table_lookup(headers, "Content-Type");
 
-    char *index = http_request->body;
-    GHashTable *data = g_hash_table_new(g_str_hash, g_str_equal);
-    request_data->data = data;
-
-    while (*index != '\0')
+    if (content_type != 0)
     {
-        char *key = index;
-        while (*index != '=')
-            index++;
-        *index = '\0';
-        index++;
-        char *value = index;
-        while (*index != '&' && *index != '\0')
-            index++;
-        if (*index == '&')
+
+        if (strstr(content_type, "application/x-www-form-urlencoded") != 0)
         {
-            *index = '\0';
-            index = index + 1;
+            char *body = http_request->body;
+            char *index = body;
+            GHashTable *data = g_hash_table_new(g_str_hash, g_str_equal);
+            request_data->data = data;
+            while (*index != '\0')
+            {
+                char *key = index;
+                while (*index != '=')
+                    index++;
+                *index = '\0';
+                index++;
+                char *value = index;
+                while (*index != '&' && *index != '\0')
+                    index++;
+                if (*index == '&')
+                {
+                    *index = '\0';
+                    index = index + 1;
+                }
+                else
+                {
+                    *index = '\0';
+                }
+                g_hash_table_insert(data, key, value);
+            }
         }
         else
         {
-            *index = '\0';
+            
+            char *boundary = strstr(content_type, "boundary=") + 9;
+            char end_boundary[100] = {0};
+            sprintf(end_boundary, "%s--", boundary);
+
+            char *body = http_request->body;
+            char *index = body;
+            GHashTable *data = g_hash_table_new(g_str_hash, g_str_equal);
+            request_data->data = data;
+            char *end_boundary_index = strstr(index, end_boundary);
+
+            while (g_ascii_strncasecmp(index,end_boundary_index,strlen(end_boundary_index)) !=0)
+            {
+                index = strstr(index, boundary) + strlen(boundary) + 2;
+                char *filename = strstr(index, "filename=") + 9;
+                char *filename_end = strstr(index, "\r\n");
+                index = filename_end + 2;
+                *filename_end = '\0';
+
+                char *content_type = strstr(index, "Content-Type:") + 14;
+                char *content_type_end = strstr(index, "\r\n");
+                index = content_type_end + 4; // 跳过\r\n\r\n
+                *content_type_end = '\0';
+
+                char *content = index;
+                char *content_end = strstr(index, boundary);
+
+                if (content_end != 0) //代表有多份数据
+                {
+                    *(content_end - 2) = '\0'; // data_end\r\n\r\n
+                    index = content_end;
+                }
+                // g_hash_table_insert(data, filename, content);
+                
+                g_hash_table_insert(data,filename, content);
+            }
         }
-        g_hash_table_insert(data, key, value);
     }
 }

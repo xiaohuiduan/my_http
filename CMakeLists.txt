@@ -13,7 +13,7 @@ include_directories(include)
 aux_source_directory(${CMAKE_SOURCE_DIR}/src proj_src)
 add_executable(${PROJECT_NAME} ${proj_src})
 
- add_subdirectory(test)
+#  add_subdirectory(test)
 
 FILE(COPY res DESTINATION "${CMAKE_BINARY_DIR}")
 

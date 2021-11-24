@@ -112,6 +112,8 @@ void on_read(int client_fd, short event, void *arg)
 void on_write(int fd, short event, void *arg)
 {
     struct socket_event *socket_event = (struct socket_event *)arg;
+    // char *buf = socket_event->buf;
+    // printf("%s\n",buf);
     deal_data_and_response(socket_event);
 }
 
@@ -168,13 +170,22 @@ int deal_data_and_response(struct socket_event *p_socket_event)
     // 如果请求的网页连接是test1
     if (g_ascii_strncasecmp(p_request_data->real_url, "test1", sizeof(p_request_data->real_url)) == 0)
     {
+        // parse_post_data(p_http_request, p_request_data);
         url_test1_deal(type, p_request_data, p_response, my_socket);
     }
 
     // 如果请求的网页连接是test2
     if (g_ascii_strncasecmp(p_request_data->real_url, "test2", sizeof(p_request_data->real_url)) == 0)
     {
+        // parse_post_data(p_http_request, p_request_data);
         url_test2_deal(type, p_request_data, p_response, my_socket);
     }
+
+    // 如果请求的网页连接是test2
+    if (g_ascii_strncasecmp(p_request_data->real_url, "upload", sizeof(p_request_data->real_url)) == 0)
+    {
+        url_upload_deal(type, p_request_data, p_response, my_socket);
+    }
+
     return 0;
 }

@@ -19,8 +19,13 @@
 /// @param socket client socket
 int res_url_deal(char *url_filename, int type, struct http_response *response, struct my_socket *my_socket);
 
+// 处理/test1 请求
 int url_test1_deal(int type, struct request_data *request_data, struct http_response *response, struct my_socket *my_socket);
 
+// 处理/test2 请求
 int url_test2_deal(int type, struct request_data *request_data, struct http_response *response, struct my_socket *my_socket);
+
+// 处理/load 请求
+int url_upload_deal(int type, struct request_data *request_data, struct http_response *response, struct my_socket *my_socket);
 
 #endif //MY_HTTP_DEAL_URL_REQUEST_H

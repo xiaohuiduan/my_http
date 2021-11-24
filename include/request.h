@@ -12,11 +12,11 @@ struct http_request
     char *url;           // 请求路由
     char *version;       // 请求版本
     GHashTable *headers; // 请求头
-    char *body;          // 请求体 get请求没有body
+    void *body;          // 请求体 get请求没有body
 };
 
 /**
- * @brief http请求的数据 real_url为去除/的url，data为请求的数据 key:value
+ * @brief http请求的数据 real_url为去除/的url，data为请求的数据 key:value or others(上传文件)
  * 
  */
 struct request_data

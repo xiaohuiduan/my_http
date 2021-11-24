@@ -84,6 +84,10 @@ int parse_request_type(char *url, char **filename)
     {
         type = HTTP_TEXT;
     }
+    else if (strstr(url, ".txt"))
+    {
+        type = HTTP_TEXT;
+    }
     else
     {
         type = GET_PARAMS_DATA;
